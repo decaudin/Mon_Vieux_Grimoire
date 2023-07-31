@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-// Middleware pour récupérer, vérifier, et si ok stocker le token d'authentification pour permettre à l'utilisateur de faire des requêtes pour lesquelles ce token est nécessaire
+// Middleware pour récupérer et vérifier le token. Si ok stocker le userId dans l'objet req.auth
 
 module.exports = (req, res, next) => {
   try {

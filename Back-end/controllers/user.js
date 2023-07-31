@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt"); // utilisé pour hasher le mot de passe de l'utilisateur avant de l'enregistrer dans la base de données
+const bcrypt = require("bcrypt"); // utilisé pour crypter le mot de passe de l'utilisateur avant de l'enregistrer dans la base de données
 const jwt = require("jsonwebtoken"); // utilisé pour attribuer un jeton d'authentification à un utilisateur au moment de la connexion
 
 const User = require("../models/User"); // Importation du modèle d'utilisateur
@@ -7,14 +7,14 @@ const User = require("../models/User"); // Importation du modèle d'utilisateur
 
 exports.signup = (req, res, next) => {
   bcrypt
-    .hash(req.body.password, 10) // Hache le mdp fourni
+    .hash(req.body.password, 10) // Crypte le mdp fourni
     .then((hash) => {
       const user = new User({
         email: req.body.email, // email extrait de la requête
-        password: hash, // mdp remplacé par le hachage
+        password: hash, // mdp remplacé par le cryptage
       });
       user
-        .save() // enregistre l'utilisateur dans le BDD
+        .save() // enregistre l'utilisateur dans la BDD
         .then(() => {
           res.status(201).json({ message: "Utilisateur créé !" });
         })

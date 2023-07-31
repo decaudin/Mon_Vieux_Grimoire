@@ -4,8 +4,8 @@ const fs = require("fs");
 // Fonction pour créer un livre
 
 exports.createBook = (req, res, next) => {
-  const bookObject = JSON.parse(req.body.book); // Récupération du contenu JSON et transformation en objet JS
-  delete bookObject._id; // Suppression de Id et userId
+  const bookObject = JSON.parse(req.body.book); // Récupération de la chaîne de caractère JSON et transformation en objet JS
+  delete bookObject._id; // Suppression de id (automatiquement créé par MongoDb) et userId que l'on remplacera par celui issu du token
   delete bookObject._userId;
   const book = new Book({
     ...bookObject, // Création d'un nouvel objet book selon le schéma book et les propriétés de bookObject (syntaxe de propagation ...)
@@ -40,7 +40,7 @@ exports.getAllBooks = (req, res, next) => {
 
 exports.getOneBook = (req, res, next) => {
   Book.findOne({
-    _id: req.params.id, // recherche avec findOne un livre spécifique en fonction de son ID dans la BDD, _id correspond au livre que nous cherchons
+    _id: req.params.id, // recherche avec findOne un livre spécifique dont _id dans la BDD correspond à l'id de la requête.
   })
     .then((book) => {
       res.status(200).json(book);
@@ -60,7 +60,7 @@ exports.modifyBook = (req, res, next) => {
           req.file.filename.split(".")[0]
         }optimized.webp`,
       }
-    : { ...req.body }; // Si pas d'image on prends simplemet les données contenues dans le corps de la requête
+    : { ...req.body }; // Si pas d'image on prend simplement les données contenues dans le corps de la requête
 
   delete bookObject._userId; // Suppression car ne sera pas modifié
   Book.findOne({ _id: req.params.id }) // Recherche du livre dans la bdd
@@ -78,11 +78,11 @@ exports.modifyBook = (req, res, next) => {
           });
         }
 
-        // Mise à jour du livre (id indique quel livre doit etre mis à jour)
+        // Mise à jour du livre dans la bdd (id indique quel livre doit etre mis à jour)
 
         Book.updateOne(
           { _id: req.params.id },
-          { ...bookObject, _id: req.params.id }
+          { ...bookObject, _id: req.params.id } // permet de s'assurer que id ne sera pas modifié lors de la mise à jour et restera identique à req.params.id (identifiant d'origine du livre)
         )
           .then(() => {
             res.status(200).json({ message: "Objet modifié!" });

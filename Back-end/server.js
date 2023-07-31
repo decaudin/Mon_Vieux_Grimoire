@@ -49,7 +49,7 @@ const errorHandler = (error) => {
 
 const server = http.createServer(app); // Création du serveur HTTP
 
-server.on("error", errorHandler); // Rattachement de l'écouteur 'errorHandler' aux évènements d'erreur du serveur
+server.on("error", errorHandler); // Pour l'évènement error du serveur, configure le gestionnaire d'évènement errorHandler (fonction précédemment définie)
 
 // Rattachement d'un écouteur pour l'évènement 'listening', déclenché lorsque le serveur commence à écouter les connexions.
 

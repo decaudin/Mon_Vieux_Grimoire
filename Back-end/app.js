@@ -57,6 +57,6 @@ app.use(cors());
 
 app.use("/api/auth", userRoutes); // Les requêtes HTTP commençant par /api/auth seront gérées par les routes définies dans le module userRoutes
 app.use("/api/books", bookRoutes); // Celles commençant par /api/books seront gérées par les routes définies dans le module bookRoutes
-app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/images", express.static(path.join(__dirname, "images"))); // Permet d'accéder aux images enregistrées dans le dossier images
 
 module.exports = app;
