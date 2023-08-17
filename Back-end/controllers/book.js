@@ -149,7 +149,7 @@ exports.rateBook = async (req, res, next) => {
     const newRating = {
       userId: user,
       grade: req.body.rating,
-      _id: req.body._id,
+      _id: req.params._id,
     };
 
     const updatedRatings = [...book.ratings, newRating]; // Rajoute la nouvelle notation à la liste existante des évaluations du livre
